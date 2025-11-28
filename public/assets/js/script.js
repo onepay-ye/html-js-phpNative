@@ -13,8 +13,7 @@ if (localStorage.getItem("onepay_api_token")) {
 // Paste button
 pasteTokenBtn.addEventListener("click", async () => {
     try {
-        const text = await navigator.clipboard.readText();
-        apiTokenInput.value = text;
+        apiTokenInput.value = await navigator.clipboard.readText();
     } catch {
         alert("Clipboard access blocked.");
     }
@@ -271,5 +270,26 @@ sendBtn.addEventListener("click", async () => {
 
     } finally {
         stopLoading();  // Always stop loader even on error
+    }
+});
+
+/****************************************************
+ * COPY RESPONSE (hover copy button)
+ ****************************************************/
+document.getElementById("copyResponseBtn").addEventListener("click", async () => {
+    const text = responseBox.textContent.trim();
+
+    if (!text) return;
+
+    try {
+        await navigator.clipboard.writeText(text);
+
+        // Change button text temporarily
+        const btn = document.getElementById("copyResponseBtn");
+        btn.textContent = "تم النسخ";
+        setTimeout(() => (btn.textContent = "نسخ"), 1000);
+
+    } catch (err) {
+        alert("Failed to copy!");
     }
 });
