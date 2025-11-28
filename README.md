@@ -7,7 +7,6 @@ This is a demo project integrating with OnePay API endpoints as defined in the p
 onepay-frontend-php/
 ├── public/
 │   ├── index.html          # Payment form (creates order)
-│   ├── status.html         # Check order status
 │   └── assets/
 │       ├── css/style.css
 │       └── js/script.js
