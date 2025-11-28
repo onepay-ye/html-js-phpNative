@@ -1,4 +1,37 @@
 /****************************************************
+ * TOKEN MANAGEMENT
+ ****************************************************/
+const apiTokenInput = document.getElementById("apiTokenInput");
+const pasteTokenBtn = document.getElementById("pasteTokenBtn");
+const saveTokenBtn = document.getElementById("saveTokenBtn");
+
+// Load saved token
+if (localStorage.getItem("onepay_api_token")) {
+    apiTokenInput.value = localStorage.getItem("onepay_api_token");
+}
+
+// Paste button
+pasteTokenBtn.addEventListener("click", async () => {
+    try {
+        const text = await navigator.clipboard.readText();
+        apiTokenInput.value = text;
+    } catch {
+        alert("Clipboard access blocked.");
+    }
+});
+
+// Save token
+saveTokenBtn.addEventListener("click", () => {
+    const token = apiTokenInput.value.trim();
+    if (!token) {
+        alert("Token cannot be empty!");
+        return;
+    }
+    localStorage.setItem("onepay_api_token", token);
+    alert("Token saved!");
+});
+
+/****************************************************
  * LOADING BUTTON HANDLER
  ****************************************************/
 function startLoading() {
@@ -10,7 +43,7 @@ function startLoading() {
 function stopLoading() {
     document.getElementById("btnText").classList.remove("d-none");
     document.getElementById("btnLoader").classList.add("d-none");
-    updateButtonState(); // يعيد تمكين الزر عند اكتمال الشروط
+    updateButtonState();
 }
 
 
@@ -172,6 +205,13 @@ sendBtn.addEventListener("click", async () => {
     let payload = {};
 
     try {
+        if (!localStorage.getItem("onepay_api_token")) {
+            responseBox.textContent = "❌ ERROR: API Token is missing. Please enter your token.";
+            stopLoading();
+            return;
+        }
+
+
         /************** ROUTING **************/
         if (operation === "accountinfo") {
             url = `${baseAPI}/accountInfo.php`;
@@ -215,7 +255,8 @@ sendBtn.addEventListener("click", async () => {
         /************** SEND REQUEST **************/
         const res = await fetch(url, {
             method,
-            headers: { "Content-Type": "application/json" },
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + (localStorage.getItem("onepay_api_token") || ""),
             body: method === "POST" ? JSON.stringify(payload) : null
         });
 
