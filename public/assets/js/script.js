@@ -249,14 +249,17 @@ sendBtn.addEventListener("click", async () => {
             }
 
             payload.payment_name = wallet;
+
         }
 
 
         /************** SEND REQUEST **************/
         const res = await fetch(url, {
             method,
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + (localStorage.getItem("onepay_api_token") || ""),
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + (localStorage.getItem("onepay_api_token") || "")
+            },
             body: method === "POST" ? JSON.stringify(payload) : null
         });
 

@@ -4,9 +4,23 @@ require_once __DIR__ . '/config.php';
 /****************************************************
  * READ TOKEN FROM HEADER
  ****************************************************/
-function getAuthorizationToken()
-{
-    $headers = getallheaders();
+function getAuthorizationToken() {
+    $headers = [];
+
+    // Try standard getallheaders()
+    if (function_exists('getallheaders')) {
+        $headers = getallheaders();
+    }
+
+    // Support Apache / Nginx alternative header names
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        $headers['Authorization'] = $_SERVER['HTTP_AUTHORIZATION'];
+    }
+
+    // Support FastCGI / PHP Built-in server
+    if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        $headers['Authorization'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    }
 
     if (!isset($headers['Authorization'])) {
         return null;
@@ -14,13 +28,15 @@ function getAuthorizationToken()
 
     $auth = trim($headers['Authorization']);
 
-    // Expect format: Bearer TOKEN_HERE
     if (stripos($auth, 'Bearer ') === 0) {
         return substr($auth, 7);
     }
 
     return null;
 }
+
+//print_r(getallheaders());
+
 
 $ONEPAY_TOKEN = getAuthorizationToken();
 

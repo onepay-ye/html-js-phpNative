@@ -13,7 +13,7 @@ if(file_exists($env_path)){
     }
 }
 
-$ONEPAY_TOKEN = $config['ONEPAY_TOKEN'] ?? '';
+//$ONEPAY_TOKEN = $config['ONEPAY_TOKEN'] ?? '';
 $ONEPAY_BASE = $config['ONEPAY_BASE_URL'] ?? 'https://one-pay.info/api/v2';
 $LOG_DIR = __DIR__ . '/logs';
 if(!is_dir($LOG_DIR)) mkdir($LOG_DIR, 0755, true);
@@ -25,8 +25,8 @@ function log_api($name, $data){
     file_put_contents($fn, $line, FILE_APPEND | LOCK_EX);
 }
 
-if(empty($ONEPAY_TOKEN)){
-    http_response_code(500);
-    echo json_encode(['status'=>0,'error'=>'ONEPAY_TOKEN not set in .env']);
-    exit;
-}
+//if(empty($ONEPAY_TOKEN)){
+//    http_response_code(500);
+//    echo json_encode(['status'=>0,'error'=>'ONEPAY_TOKEN not set in .env']);
+//    exit;
+//}
