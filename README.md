@@ -2,15 +2,6 @@
 
 This is a demo project integrating with OnePay API endpoints as defined in the provided Postman collection.
 
-## What's updated
-- Base URL default: `https://one-pay.info/api/v2`
-- Endpoints used:
-  - `POST /createorder`
-  - `POST /checkorder`
-  - `GET /cashpay/accountinfo`
-  - `GET /cashpay/invoice/list/{payerEmail}`
-- OTP page removed (not present in the Postman collection)
-
 ## Project Structure
 ```
 onepay-frontend-php/
