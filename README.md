@@ -1,2 +1,13 @@
-# html-js-phpNative
-OnePay Frontend + Native PHP Backend (Complete Guide)
+# OnePay Frontend + Native PHP Backend (Demo)
+
+## تركيب
+1. ضع محتويات `public/` في مجلد الويب (مثلاً `public_html`).
+2. ضع مجلد `api/` خارج أو داخل المسار الذي تريده، وتأكد أن `api/config.php` يمكنه قراءة `.env`.
+3. انسخ `.env.example` إلى `.env` وعدل `ONEPAY_TOKEN`.
+4. اجعل مجلد `api/logs` قابل للكتابة (chmod 755/775).
+5. افتح `public/index.html` في المتصفح، وجرّب إنشاء طلب.
+
+## ملاحظات أمنية
+- لا تضع توكن في ملفات عامة؛ استخدم .env خارج public أو إعدادات السيرفر.
+- فعّل HTTPS في السيرفر قبل الانتقال إلى بيئة Production.
+- قم بتقييد الوصول إلى مجلد `api/` إذا لزم (مثلاً عبر إعدادات السيرفر).

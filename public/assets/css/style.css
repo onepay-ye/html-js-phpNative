@@ -1,0 +1,17 @@
+:root{
+  --accent:#1e88e5;
+  --bg:#f6f8fb;
+}
+body{
+  background: var(--bg);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  direction: rtl;
+}
+.payment-card{
+  max-width:420px;
+  margin-top:40px;
+  border-radius:12px;
+}
+label{font-weight:600}
+pre{white-space:pre-wrap; word-break:break-word}
+.btn-primary{background:var(--accent); border:0}

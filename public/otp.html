@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>تأكيد الدفع - إدخال OTP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <main class="container py-5">
+    <div class="card mx-auto shadow-sm payment-card">
+      <div class="card-body p-4">
+        <h3 class="card-title text-center mb-3">تأكيد الدفع - OTP</h3>
+
+        <form id="otpForm">
+          <div class="mb-3">
+            <label class="form-label">رقم الطلب (order_id)</label>
+            <input id="orderId" class="form-control" required placeholder="مثال: 123456">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">رمز التحقق (OTP)</label>
+            <input id="otpCode" class="form-control" required placeholder="رمز التحقق">
+          </div>
+
+          <button class="btn btn-primary w-100" id="otpBtn">
+            تأكيد
+            <span id="otpLoader" class="spinner-border spinner-border-sm d-none"></span>
+          </button>
+        </form>
+
+        <div id="otpResult" class="mt-3 d-none">
+          <pre id="otpPre" class="small bg-light p-2 rounded"></pre>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
