@@ -1,4 +1,4 @@
-# OnePay Frontend + Native PHP Backend (Postman-aligned)
+# OnePay Frontend + Native PHP Backend
 
 This is a demo project integrating with OnePay API endpoints as defined in the provided Postman collection.
 
@@ -10,8 +10,10 @@ onepay-frontend-php/
 │   ├── status.html         # Check order status
 │   └── assets/
 │       ├── css/style.css
-│       └── js/app.js
+│       └── js/script.js
 ├── api/
+│   ├── accountInfo.php
+│   ├── invoiceList.php
 │   ├── config.php
 │   ├── api_client.php
 │   ├── createOrder.php
