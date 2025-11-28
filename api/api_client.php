@@ -14,6 +14,8 @@ function onepay_post($path, $payload){
         "Accept: application/json"
     ]);
     curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload, JSON_UNESCAPED_UNICODE));
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
@@ -46,6 +48,8 @@ function onepay_get($path, $params = []){
         "User-Agent: ONEPAY/1.0",
         "Accept: application/json"
     ]);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
     $res = curl_exec($ch);
