@@ -1,6 +1,7 @@
 # OnePay Frontend + Native PHP Backend
 
 This is a demo project integrating with OnePay API endpoints as defined in the provided Postman collection.
+<img src="public/assets/img/img.png">
 
 ## Project Structure
 ```
