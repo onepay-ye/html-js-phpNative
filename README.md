@@ -24,11 +24,11 @@ onepay-frontend-php/
 ```
 
 ## Install & Run
-1. Copy `public/` contents to your web root (e.g., `public_html`).
-2. Place `api/` folder at the same level or above web root (ensure `api/config.php` can read `.env`).
-3. Copy `.env.example` to `.env` and set:
+1. Set Token in UI And Save It In LocalStorage For Test it.
+2. Copy `public/` contents to your web root (e.g., `public_html`).
+3. Place `api/` folder at the same level or above web root (ensure `api/config.php` can read `.env`).
+4. Copy `.env.example` to `.env` and set:
 ```
-ONEPAY_TOKEN=your_onepay_api_token_here
 ONEPAY_BASE_URL=https://one-pay.info/api/v2
 ```
 4. Make `api/logs` writable:
