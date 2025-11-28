@@ -32,7 +32,8 @@ $payload = [
     "beneficiaryList" => [
         [
             "amount" => $amount,
-            "note" => $description ?: "Payment"
+            "quantity" => 1,
+            "itemName" => 'product1'
         ]
     ]
 ];

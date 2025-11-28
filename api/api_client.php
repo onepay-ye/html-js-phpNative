@@ -11,6 +11,7 @@ function onepay_post($path, $payload){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $ONEPAY_TOKEN",
+        "User-Agent: ONEPAY/1.0",
         "Content-Type: application/json"
     ]);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -43,6 +44,7 @@ function onepay_get($path, $params = []){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $ONEPAY_TOKEN",
+        "User-Agent: ONEPAY/1.0",
         "Accept: application/json"
     ]);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
