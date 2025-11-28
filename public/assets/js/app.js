@@ -1,7 +1,6 @@
-// ملف مشترك لكل الصفحات
-const apiBase = "/api"; // تأكد أن مسار الـ API صحيح حسب روت السيرفر
+// Shared JS for pages
+const apiBase = "/api"; // adjust if API path differs
 
-// عرض توست
 function showToast(text, type = "info") {
   const container = document.getElementById("toastContainer");
   if(!container) return;
@@ -19,23 +18,29 @@ function showToast(text, type = "info") {
   t.show();
 }
 
-// --- صفحة index.html: إنشاء طلب دفع
+// Create order handler (index.html)
 const paymentForm = document.getElementById("paymentForm");
 if(paymentForm){
   paymentForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const submitBtn = document.getElementById("submitBtn");
     const btnText = document.getElementById("btnText");
     const btnLoader = document.getElementById("btnLoader");
     btnText.classList.add("d-none");
     btnLoader.classList.remove("d-none");
 
     const payload = {
+      payment_name: "cashpay",
+      currency_id: document.getElementById("currency").value,
       payerPhone: document.getElementById("payerPhone").value.trim(),
       payerEmail: document.getElementById("payerEmail").value.trim(),
-      currency: document.getElementById("currency").value,
-      amount: document.getElementById("amount").value,
-      description: document.getElementById("description").value.trim()
+      beneficiaryList: [
+        {
+          amount: Number(document.getElementById("amount").value),
+          itemName: "item",
+          quantity: 1
+        }
+      ],
+      des: document.getElementById("description").value.trim()
     };
 
     try{
@@ -51,8 +56,10 @@ if(paymentForm){
 
       if(data.status && data.order_id){
         showToast("تم إنشاء الطلب بنجاح", "success");
-        // حفظ order_id محلياً لاستخدامه في OTP أو الفحص
-        localStorage.setItem("onepay_last_order", data.order_id);
+        localStorage.setItem('onepay_last_order', data.order_id);
+        localStorage.setItem('onepay_last_payer', payload.payerPhone);
+        localStorage.setItem('onepay_last_email', payload.payerEmail || '');
+        if(data.raw && data.raw.requestIdRes) localStorage.setItem('onepay_last_requestId', data.raw.requestIdRes);
       } else {
         showToast(data.error || "خطأ أثناء إنشاء الطلب", "danger");
       }
@@ -66,39 +73,7 @@ if(paymentForm){
   });
 }
 
-// --- صفحة otp.html
-const otpForm = document.getElementById("otpForm");
-if(otpForm){
-  otpForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById("otpBtn");
-    const loader = document.getElementById("otpLoader");
-    loader.classList.remove("d-none");
-
-    const payload = {
-      order_id: document.getElementById("orderId").value.trim(),
-      otp: document.getElementById("otpCode").value.trim()
-    };
-
-    try {
-      const res = await fetch(apiBase + "/confirmOtp.php", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      document.getElementById("otpResult").classList.remove("d-none");
-      document.getElementById("otpPre").textContent = JSON.stringify(data, null, 2);
-      showToast(data.status === 1 ? "تم تأكيد الدفع" : (data.error || "فشل التأكيد"), data.status === 1 ? "success" : "danger");
-    } catch (err){
-      showToast("خطأ في الاتصال بالسيرفر", "danger");
-    } finally {
-      loader.classList.add("d-none");
-    }
-  });
-}
-
-// --- صفحة status.html
+// Status page handler (status.html) - POST to checkOrder.php with JSON body as per Postman
 const statusForm = document.getElementById("statusForm");
 if(statusForm){
   statusForm.addEventListener("submit", async (e) => {
@@ -108,7 +83,17 @@ if(statusForm){
 
     const order_id = document.getElementById("statusOrderId").value.trim();
     try {
-      const res = await fetch(apiBase + "/checkOrder.php?order_id=" + encodeURIComponent(order_id));
+      const res = await fetch(apiBase + "/checkOrder.php", {
+        method: "POST",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          payment_name: "cashpay",
+          payerPhone: localStorage.getItem('onepay_last_payer') || '',
+          payerEmail: localStorage.getItem('onepay_last_email') || '',
+          requestIdRes: localStorage.getItem('onepay_last_requestId') || '',
+          orderID: order_id
+        })
+      });
       const data = await res.json();
       document.getElementById("statusResult").classList.remove("d-none");
       document.getElementById("statusPre").textContent = JSON.stringify(data, null, 2);

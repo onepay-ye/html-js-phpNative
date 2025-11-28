@@ -1,8 +1,6 @@
 <?php
-// api_client.php
 require_once __DIR__ . '/config.php';
 
-// دالة عامة لإرسال POST إلى OnePay
 function onepay_post($path, $payload){
     global $ONEPAY_BASE, $ONEPAY_TOKEN;
     $url = rtrim($ONEPAY_BASE, '/') . '/' . ltrim($path, '/');
@@ -11,8 +9,9 @@ function onepay_post($path, $payload){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $ONEPAY_TOKEN",
+        "Content-Type: application/json",
         "User-Agent: ONEPAY/1.0",
-        "Content-Type: application/json"
+        "Accept: application/json"
     ]);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload, JSON_UNESCAPED_UNICODE));
@@ -34,7 +33,6 @@ function onepay_post($path, $payload){
     return $decoded;
 }
 
-// دالة GET عامة (إن احتجت)
 function onepay_get($path, $params = []){
     global $ONEPAY_BASE, $ONEPAY_TOKEN;
     $url = rtrim($ONEPAY_BASE, '/') . '/' . ltrim($path, '/');
@@ -44,8 +42,8 @@ function onepay_get($path, $params = []){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $ONEPAY_TOKEN",
-        "User-Agent: ONEPAY/1.0",
-        "Accept: application/json"
+        "Accept: application/json",
+        "User-Agent: ONEPAY/1.0"
     ]);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
